@@ -3,6 +3,10 @@
         <p>Loading...</p>
 
     </div>
+    <div v-else-if="error">
+        <p>Error Code : {{ error.statusCode }}</p>
+        <p>Error Message: {{ error.message }}</p>
+    </div>
     <div v-else>
         <button 
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -10,8 +14,7 @@
         >
             Refresh
         </button>
-    </div>
-    <div  class=" grid grid-cols-5 gap-4">
+        <div  class=" grid grid-cols-5 gap-4">
         <div 
             v-for="product in productInfo.products"
             class="flex flex-col shadow-lg bg-white p-6 rounded-md"
@@ -27,6 +30,9 @@
         </div>
 
     </div>
+    </div>
+    
+    
 </template>
 
 <script setup>
@@ -54,7 +60,8 @@
     const { 
         pending, 
         data: productInfo, 
-        refresh
+        refresh,
+        error
     } = useAsyncData(
         'productInfo', 
         async () => {
