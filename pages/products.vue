@@ -1,5 +1,9 @@
 <template>
-    <div class=" grid grid-cols-5 gap-4">
+    <div v-if="pending">
+        <p>Loading...</p>
+
+    </div>
+    <div v-else class=" grid grid-cols-5 gap-4">
         <div 
             v-for="product in products"
             class="flex flex-col shadow-lg bg-white p-6 rounded-md"
@@ -19,6 +23,9 @@
 
 <script setup>
 
-    const { data: products } = useFetch('https://fakestoreapi.com/products');
+    const { pending, data: products } = useFetch('https://fakestoreapi.com/products',
+        {lazy: true}
+    
+    );
 
 </script>
