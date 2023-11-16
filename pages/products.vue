@@ -26,10 +26,16 @@
     const { pending, data: products } = useFetch('https://fakestoreapi.com/products',
         {
             lazy: true,
-            server: false,
+            transform: (products) => {
+                return products.map((product) => ({
+                    id: product.id,
+                    title: product.title,
+                    image: product.image
+                }))
+        
+            },
         
         }
-    
     );
 
 </script>
