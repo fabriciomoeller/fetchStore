@@ -3,19 +3,26 @@
         <p>Loading...</p>
 
     </div>
-    <div v-else class=" grid grid-cols-5 gap-4">
+    <div v-else>
+        <button 
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            @click="refresh"
+        >
+            Refresh
+        </button>
+    </div>
+    <div  class=" grid grid-cols-5 gap-4">
         <div 
-           
+            v-for="product in products"
             class="flex flex-col shadow-lg bg-white p-6 rounded-md"
         >
-    
             <img 
-                :src="products.image" 
-                :alt="products.title" 
+                :src="product.image" 
+                :alt="product.title" 
                 class="w-[75px] h-auto self-center"
             >
             <h2 class="text-black mt-auto text-sm">
-                {{ products.title }}
+                {{ product.title }}
             </h2>
         </div>
 
@@ -24,7 +31,11 @@
 
 <script setup>
 
-    /*const { pending, data: products } = useFetch(
+    const { 
+        pending, 
+        data: products,
+        refresh
+    } = useFetch(
         'https://fakestoreapi.com/products/',
         {
             lazy: true,
@@ -36,15 +47,6 @@
                 }))
         
             },
-        
-        }
-    );*/
-
-    const { pending, data: products } = useFetch(
-        'https://fakestoreapi.com/products/1',
-        {
-            lazy: true,
-            pick: ['id', 'title', 'image'],
         
         }
     );
