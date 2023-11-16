@@ -5,16 +5,17 @@
     </div>
     <div v-else class=" grid grid-cols-5 gap-4">
         <div 
-            v-for="product in products"
+           
             class="flex flex-col shadow-lg bg-white p-6 rounded-md"
         >
+    
             <img 
-                :src="product.image" 
-                :alt="product.title" 
+                :src="products.image" 
+                :alt="products.title" 
                 class="w-[75px] h-auto self-center"
             >
             <h2 class="text-black mt-auto text-sm">
-                {{ product.title }}
+                {{ products.title }}
             </h2>
         </div>
 
@@ -23,7 +24,8 @@
 
 <script setup>
 
-    const { pending, data: products } = useFetch('https://fakestoreapi.com/products',
+    /*const { pending, data: products } = useFetch(
+        'https://fakestoreapi.com/products/',
         {
             lazy: true,
             transform: (products) => {
@@ -34,6 +36,15 @@
                 }))
         
             },
+        
+        }
+    );*/
+
+    const { pending, data: products } = useFetch(
+        'https://fakestoreapi.com/products/1',
+        {
+            lazy: true,
+            pick: ['id', 'title', 'image'],
         
         }
     );
