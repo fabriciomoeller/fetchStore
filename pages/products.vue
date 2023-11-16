@@ -24,7 +24,11 @@
 <script setup>
 
     const { pending, data: products } = useFetch('https://fakestoreapi.com/products',
-        {lazy: true}
+        {
+            lazy: true,
+            server: false,
+        
+        }
     
     );
 
