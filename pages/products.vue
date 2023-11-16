@@ -13,7 +13,7 @@
     </div>
     <div  class=" grid grid-cols-5 gap-4">
         <div 
-            v-for="product in products"
+            v-for="product in productInfo.products"
             class="flex flex-col shadow-lg bg-white p-6 rounded-md"
         >
             <img 
@@ -31,23 +31,55 @@
 
 <script setup>
 
+    // const { 
+    //     pending, 
+    //     data: products,
+    //     refresh
+    // } = useFetch(
+    //     'https://fakestoreapi.com/products/',
+    //     {
+    //         lazy: true,
+    //         transform: (products) => {
+    //             return products.map((product) => ({
+    //                 id: product.id,
+    //                 title: product.title,
+    //                 image: product.image
+    //             }))
+        
+    //         },
+        
+    //     }
+    // );
+
     const { 
         pending, 
-        data: products,
+        data: productInfo, 
         refresh
-    } = useFetch(
-        'https://fakestoreapi.com/products/',
+    } = useAsyncData(
+        'productInfo', 
+        async () => {
+            const [products, categories] = await Promise.all([
+                $fetch('https://fakestoreapi.com/products'),
+                $fetch('https://fakestoreapi.com/products/categories')
+            ]);
+
+            return {
+                products,
+                categories,
+            };   
+        },
         {
             lazy: true,
-            transform: (products) => {
-                return products.map((product) => ({
-                    id: product.id,
-                    title: product.title,
-                    image: product.image
-                }))
-        
+            transform: (productInfo) => {
+                return {
+                    categories: productInfo.categories,
+                    products: productInfo.products.map((product) => ({
+                        id: product.id,
+                        title: product.title,
+                        image: product.image
+                    }))
+                }
             },
-        
         }
     );
 
